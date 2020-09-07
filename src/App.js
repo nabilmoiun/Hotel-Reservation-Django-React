@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import "./assets/main.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 import { Route, Switch } from "react-router-dom";
@@ -15,7 +16,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/rooms" component={RoomPage} />
-        <Route path="/single-room/:id" component={SingleRoomPage} />
+        <Route path="/single-room/:room_slug" component={SingleRoomPage} />
         <Route component={ErrorPage} />
       </Switch>
     </div>

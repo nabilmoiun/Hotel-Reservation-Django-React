@@ -1,0 +1,29 @@
+.hero-image {
+    height: 540px;
+}
+
+.service-card svg {
+    height: 5rem;
+    width: 5rem;
+    color: #897F6B;
+    margin: auto;
+    padding-top: 1rem;
+}
+.featured-rooms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.featured-rooms > div {
+    width: 23%;
+    margin: 10px;
+}
+.room-image {
+    height: 180px!important;
+}
+
+@media screen and (max-width:720px) {
+    .featured-rooms > div {
+        width: 100%;
+    }
+}

@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CarouselItems from "./CarouselItems";
-export default function HeroComponent() {
-  const image =
-    "https://media.architecturaldigest.com/photos/560c37dd7da26e3235ad995e/2:1/w_1200,h_600,c_limit/gray-living-room-01.jpg";
-  const carouselItems = [image, image, image, image];
-  const dataSlideList = carouselItems.map((item, index) => (
-    <li
-      data-target="#carouselExampleIndicators"
-      data-slide-to={`${index + 1}`}
-    ></li>
-  ));
+export default function HeroComponent({ data }) {
+  const dataSlideList = data
+    .slice(1)
+    .map((item, index) => (
+      <li
+        data-target="#carouselExampleIndicators"
+        data-slide-to={`${index + 1}`}
+        key={index}
+      ></li>
+    ));
 
   return (
     <div
@@ -18,34 +18,36 @@ export default function HeroComponent() {
       className="carousel slide"
       data-ride="carousel"
     >
+      {/* Carousel Inner */}
+
+      <div className="carousel-inner">
+        <div className="carousel-item active">
+          <Link to={`/single-room/${data[0].room_slug}`}>
+            <img
+              className="d-block w-100 hero hero-image"
+              src={data[0].cover_image}
+              alt="First slide"
+            />
+          </Link>
+          <div className="carousel-caption d-md-block">
+            <h5>{data[0].title}</h5>
+            <p>{data[0].price_per_night}</p>
+          </div>
+        </div>
+
+        <CarouselItems data={data.slice(1)} />
+      </div>
+
+      {/* Carousel Inner */}
+
       <ol className="carousel-indicators">
         <li
           data-target="#carouselExampleIndicators"
           data-slide-to="0"
           className="active"
         ></li>
-        {/* <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="4"></li> */}
         {dataSlideList}
       </ol>
-
-      {/* Carousel Inner */}
-
-      <div className="carousel-inner">
-        <div className="carousel-item active">
-          <img className="d-block w-100" src={image} alt="First slide" />
-          <div className="carousel-caption d-none d-md-block">
-            <h5>image - 0</h5>
-            <p>Paragraph</p>
-          </div>
-        </div>
-
-        <CarouselItems data={carouselItems} />
-      </div>
-
-      {/* Carousel Inner */}
 
       <a
         className="carousel-control-prev"

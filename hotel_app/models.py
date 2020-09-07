@@ -17,6 +17,7 @@ class Room(models.Model):
     room_size = models.CharField(max_length=5)
     cover_image = models.ImageField(null=True, upload_to='room_cover')
     # display_images = models.FileField(upload_to='display_images')
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
