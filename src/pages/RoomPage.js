@@ -1,12 +1,22 @@
 import React, {useContext} from 'react'
 import {MyContext} from '../Context';
+import RoomsFilter from '../components/RoomsFilter'; 
+import Title from '../components/Title';
+import RoomList from '../components/RoomList';
 
 export default function RoomPage() {
-    const data = useContext(MyContext);
-    console.log("data from context", data);
+    const contextData = useContext(MyContext);
+    const {sortedRooms} = contextData
     return (
-        <div>
-            Room Page
+        <>
+        <div className="container">
+            <Title title="Filter Rooms" />
+            <RoomsFilter />
+            <Title title="Rooms" />
+            <div className="room-list">
+                <RoomList rooms={sortedRooms} />
+            </div>
         </div>
+        </>
     )
 }

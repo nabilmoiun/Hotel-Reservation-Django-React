@@ -9,21 +9,35 @@
     margin: auto;
     padding-top: 1rem;
 }
-.featured-rooms {
+.featured-rooms, .room-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
-.featured-rooms > div {
+.featured-rooms > div, .room-list > div {
     width: 23%;
+    margin: 10px;
+}
+.rooms-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.rooms-filter > div {
+    width: 18%;
     margin: 10px;
 }
 .room-image {
     height: 180px!important;
 }
 
+.carousel-caption {
+    top: 50%;
+    font-weight: bold;
+}
+
 @media screen and (max-width:720px) {
-    .featured-rooms > div {
+    .featured-rooms > div , .room-list > div, .rooms-filter > div {
         width: 100%;
     }
 }
