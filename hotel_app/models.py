@@ -7,6 +7,14 @@ TYPE = (
 )
 
 
+def room_images_upload_path(instance, file_name):
+    return f"{instance.room_slug}/room_cover/{file_name}"
+
+
+def room_display_images_upload_path(instance, file_name):
+    return f"{instance.room.room_slug}/room_display/{file_name}"
+
+
 class Room(models.Model):
     title = models.CharField(max_length=30)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
@@ -15,8 +23,7 @@ class Room(models.Model):
     is_booked = models.BooleanField(default=False)
     capacity = models.IntegerField()
     room_size = models.CharField(max_length=5)
-    cover_image = models.ImageField(null=True, upload_to='room_cover')
-    # display_images = models.FileField(upload_to='display_images')
+    cover_image = models.ImageField(upload_to=room_images_upload_path)
     featured = models.BooleanField(default=False)
 
     def __str__(self):
@@ -68,6 +75,9 @@ class CheckOut(models.Model):
         return self.customer
 
 
-# class RoomDisplayImages(models.Model):
-#     room = models.ForeignKey(Room)
-#     image = models.ImageField()
+class RoomDisplayImages(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    display_images = models.ImageField(upload_to=room_display_images_upload_path)
+
+    def __str__(self):
+        return self.room.room_slug

@@ -6,13 +6,27 @@ from .models import (
     Booking,
     Payment,
     CheckIn,
-    CheckOut
+    CheckOut,
+    RoomDisplayImages
 )
 
-admin.site.register(Room)
+
+class RoomDisplayImagesStacked(admin.StackedInline):
+    model = RoomDisplayImages
+
+
+class RoomAdmin(admin.ModelAdmin):
+    inlines = [RoomDisplayImagesStacked]
+
+    class Meta:
+        model = Room
+
+
+admin.site.register(Room, RoomAdmin)
 admin.site.register(Category)
 admin.site.register(Customer)
 admin.site.register(Booking)
 admin.site.register(Payment)
 admin.site.register(CheckIn)
 admin.site.register(CheckOut)
+admin.site.register(RoomDisplayImages)
