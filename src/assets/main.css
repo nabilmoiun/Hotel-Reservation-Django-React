@@ -1,43 +1,66 @@
 .hero-image {
-    height: 540px;
+  height: 540px;
 }
 
 .service-card svg {
-    height: 5rem;
-    width: 5rem;
-    color: #897F6B;
-    margin: auto;
-    padding-top: 1rem;
+  height: 5rem;
+  width: 5rem;
+  color: #897f6b;
+  margin: auto;
+  padding-top: 1rem;
 }
-.featured-rooms, .room-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.featured-rooms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-.featured-rooms > div, .room-list > div {
-    width: 23%;
-    margin: 10px;
+
+.room-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.featured-rooms > div,
+.room-list > div {
+  width: 23%;
+  margin: 10px;
 }
 .rooms-filter {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 .rooms-filter > div {
-    width: 18%;
-    margin: 10px;
+  width: 18%;
+  margin: 10px;
 }
 .room-image {
-    height: 180px!important;
+  height: 180px !important;
 }
 
 .carousel-caption {
-    top: 50%;
-    font-weight: bold;
+  top: 50%;
+  font-weight: bold;
 }
 
-@media screen and (max-width:720px) {
-    .featured-rooms > div , .room-list > div, .rooms-filter > div {
-        width: 100%;
-    }
+.cover-component {
+  background: url(https://www.w3schools.com/w3css/img_lights.jpg);
+}
+.cover-component .img-fluid {
+  width: 100% !important;
+  height: 640px !important;
+}
+
+@media screen and (min-width: 576px) {
+  .jumbotron {
+    padding: 10rem 2rem !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .featured-rooms > div,
+  .room-list > div,
+  .rooms-filter > div {
+    width: 100%;
+  }
 }

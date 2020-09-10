@@ -17,6 +17,7 @@ export default function HeroComponent({ data }) {
       id="carouselExampleIndicators"
       className="carousel slide"
       data-ride="carousel"
+      data-interval="3000"
     >
       {/* Carousel Inner */}
 
