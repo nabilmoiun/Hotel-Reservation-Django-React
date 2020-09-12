@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext, useconText } from "react";
+import { Link } from "react-router-dom";
+import { MyContext } from "../Context";
 
 export default function BannerComponent({ room }) {
+  const context = useContext(MyContext);
   return (
     <>
       <div
@@ -8,7 +11,7 @@ export default function BannerComponent({ room }) {
         style={{
           backgroundImage: `url("${room.cover_image}")`,
           backgroundRepeat: "no-repeat",
-          backgroundSize: "100% 100%"
+          backgroundSize: "100% 100%",
         }}
       >
         <h1 className="display-4 font-weight-bold text-white">{room.title}</h1>
@@ -21,11 +24,35 @@ export default function BannerComponent({ room }) {
           It uses utility classNamees for typography and spacing to space
           content out within the larger container.
         </p> */}
-        <p className="lead">
-          <a className="btn btn-primary btn-lg" href="#" role="button">
-            Book Room
-          </a>
-        </p>
+        {room.is_booked ? (
+          <p className="lead btn btn-danger btn-lg">Reserved</p>
+        ) : (
+          <p className="lead">
+            { context.isUserAuthenticated ? (
+              <Link
+                to={{
+                  pathname: `/book/${room.id}`,
+                  state: room,
+                }}
+                className="btn btn-primary btn-lg"
+                role="button"
+              >
+                Book Room
+              </Link>
+            ) : (
+              <Link
+                to={{
+                  pathname: `/login`,
+                  state: room,
+                }}
+                className="btn btn-primary btn-lg"
+                role="button"
+              >
+                Book Room
+              </Link>
+            )}
+          </p>
+        )}
       </div>
     </>
   );

@@ -8,6 +8,7 @@ class Context extends Component {
     super(props);
 
     this.state = {
+      isUserAuthenticated: false,
       rooms: [],
       sortedRooms: [],
       featuredRooms: [],
@@ -79,7 +80,7 @@ class Context extends Component {
       capacity,
       price_per_night,
       minRoomSize,
-      maxRoomSize
+      maxRoomSize,
     } = this.state;
     let filtredRooms = [...rooms];
     if (category_name !== "all") {
@@ -107,10 +108,32 @@ class Context extends Component {
     });
   };
 
+  handleLogin = () => {
+    this.setState(
+      {
+        isUserAuthenticated: true,
+      },
+      console.log("login successfull")
+    );
+  };
+
+  handleBook = (id) => {
+    this.state.rooms.forEach(room => {
+      if(room.id === id) {
+        room.is_booked = true
+      }
+    })
+  }
+
   render() {
     return (
       <MyContext.Provider
-        value={{ ...this.state, handleChange: this.handleChange }}
+        value={{
+          ...this.state,
+          handleChange: this.handleChange,
+          login: this.handleLogin,
+          handleBook: this.handleBook
+        }}
       >
         {this.props.children}
       </MyContext.Provider>
