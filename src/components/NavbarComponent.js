@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-
+import { MyContext } from "../Context";
 export default function NavbarComponent() {
+  const context = useContext(MyContext);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <button
@@ -23,9 +25,25 @@ export default function NavbarComponent() {
           <Link to="/rooms" className="nav-link">
             <li className="nav-item">Rooms</li>
           </Link>
-          <Link to="/login" className="nav-link">
-            <li className="nav-item">Login</li>
-          </Link>
+          {context.isUserAuthenticated ? (
+            <Link
+              to="/"
+              className="nav-link"
+              role="button"
+              onClick={context.logout}
+            >
+              <li className="nav-item">Logout</li>
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link">
+                <li className="nav-item">Login</li>
+              </Link>
+              <Link to="/register" className="nav-link">
+                <li className="nav-item">Register</li>
+              </Link>
+            </>
+          )}
         </ul>
       </div>
     </nav>
