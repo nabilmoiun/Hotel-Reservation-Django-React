@@ -52,7 +52,7 @@ class UserView(APIView):
         )
 
         new_user = {
-            "response": "Registration Successful",
+            "response": "Your Registration Is Successful",
             "id": user.id,
             "username": user.username,
             "email": user.email
