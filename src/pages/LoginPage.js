@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import { MyContext } from "../Context";
 import { Link, Redirect } from "react-router-dom";
-export default function LoginPage() {
+export default function LoginPage({ history }) {
+  console.log(history);
   const context = useContext(MyContext);
   const [data, setData] = useState({
     username: "",
@@ -13,11 +14,16 @@ export default function LoginPage() {
   }
   return (
     <div className="container m-auto align-items-center justify-content-center">
-      <form onSubmit={(event) => context.login(event, data)}>
-        <div className="row"></div>
+      <form
+        onSubmit={(event) => context.login(event, data, history)}
+        className="mt-5"
+      >
         <div className="row">
           <div className="form-group col-md-6 m-auto">
-            <h6 id="login-error-header" className="col-md-6 m-auto"></h6>
+            <p
+              id="login-error-header"
+              className="col-md-6 m-auto pb-2 font-weight-bold"
+            ></p>
             <label htmlFor="inputUserName">Username</label>
             <input
               className="form-control"
@@ -54,6 +60,14 @@ export default function LoginPage() {
             <button type="submit" className="btn btn-primary px-5 my-3">
               Login
             </button>
+            <p>
+              If you have not created an account yet
+              <Link to="/register" className="text-decoration-none">
+                {" "}
+                Sign up{" "}
+              </Link>
+              first
+            </p>
           </div>
         </div>
       </form>

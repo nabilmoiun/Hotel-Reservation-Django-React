@@ -5,12 +5,12 @@ import BannerComponent from "../components/BannerComponent";
 
 export default function SingleRommPage({ match }) {
   const context = useContext(MyContext);
-  let singleRoom = [];
   const room = context.rooms.find(
     (room) => room.room_slug === match.params["room_slug"]
   );
+  console.log(room);
   if (!room) {
-    return <div>Loading...........</div>;
+    return <div>Eroror</div>;
   } else {
     return (
       <>
@@ -44,37 +44,55 @@ export default function SingleRommPage({ match }) {
 
           <div className="row mt-5">
             <div className="col-md-4">
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
             </div>
             <div className="col-md-4">
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
             </div>
             <div className="col-md-4">
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
             </div>
           </div>
         </div>

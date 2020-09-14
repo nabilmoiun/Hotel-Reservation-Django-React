@@ -6,11 +6,11 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
 import Context from "./Context";
 ReactDOM.render(
-  <Context>
-    <Router>
+  <Router>
+    <Context>
       <App />
-    </Router>
-  </Context>,
+    </Context>
+  </Router>,
   document.getElementById("root")
 );
 

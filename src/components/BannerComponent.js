@@ -1,9 +1,7 @@
-import React, { useContext, useconText } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { MyContext } from "../Context";
 
 export default function BannerComponent({ room }) {
-  const context = useContext(MyContext);
   return (
     <>
       <div
@@ -28,29 +26,18 @@ export default function BannerComponent({ room }) {
           <p className="lead btn btn-danger btn-lg">Reserved</p>
         ) : (
           <p className="lead">
-            { context.isUserAuthenticated ? (
-              <Link
-                to={{
-                  pathname: `/book/${room.id}`,
-                  state: room,
-                }}
-                className="btn btn-primary btn-lg"
-                role="button"
-              >
-                Book Room
-              </Link>
-            ) : (
-              <Link
-                to={{
-                  pathname: `/login`,
-                  state: room,
-                }}
-                className="btn btn-primary btn-lg"
-                role="button"
-              >
-                Book Room
-              </Link>
-            )}
+            (
+            <Link
+              to={{
+                pathname: `/book/${room.id}`,
+                state: { room },
+              }}
+              className="btn btn-primary btn-lg"
+              role="button"
+            >
+              Book Room
+            </Link>
+            )
           </p>
         )}
       </div>

@@ -17,13 +17,22 @@ function App() {
     <div className="container-fluid">
       <NavbarComponent />
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/rooms" component={RoomPage} />
-        <Route path="/single-room/:room_slug" component={SingleRoomPage} />
-        <Route path="/book/:room_id" component={BookingPage} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route component={ErrorPage} />
+        <Route exact path="/" render={(props) => <HomePage {...props} />} />
+        <Route path="/rooms" render={(props) => <RoomPage {...props} />} />
+        <Route
+          path="/single-room/:room_slug"
+          render={(props) => <SingleRoomPage {...props} />}
+        />
+        <Route
+          path="/book/:room_id"
+          render={(props) => <BookingPage {...props} />}
+        />
+        <Route path="/login" render={(props) => <LoginPage {...props} />} />
+        <Route
+          path="/register"
+          render={(props) => <RegisterPage {...props} />}
+        />
+        <Route render={(props) => <ErrorPage {...props} />} />
       </Switch>
     </div>
   );

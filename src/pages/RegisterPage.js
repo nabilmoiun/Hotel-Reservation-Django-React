@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import TextInput from "../components/TextInput";
 import { MyContext } from "../Context";
-import { Redirect } from "react-router-dom";
-export default function RegisterPage() {
+import { Redirect, Link } from "react-router-dom";
+export default function RegisterPage({ history }) {
   const context = useContext(MyContext);
   const [data, setData] = useState({
     username: "",
@@ -17,7 +17,18 @@ export default function RegisterPage() {
 
   return (
     <div className="container m-auto align-items-center justify-content-center">
-      <form onSubmit={(event) => context.register(event, data)}>
+      <form
+        onSubmit={(event) => context.register(event, data, history)}
+        className="mt-5"
+      >
+        <div className="row">
+          <div className="form-group col-md-6 m-auto pb-3">
+            <p
+              className="text-uppercase text-danger font-weight-bold"
+              id="register-message"
+            ></p>
+          </div>
+        </div>
         <div className="row">
           <TextInput
             divClass="form-group col-md-6 m-auto"
@@ -91,6 +102,14 @@ export default function RegisterPage() {
             <button type="submit" className="btn btn-primary px-5 my-3">
               Register
             </button>
+            <p>
+              Already have an account ?
+              <Link to="/login" className="text-decoration-none">
+                {" "}
+                Login{" "}
+              </Link>
+              here
+            </p>
           </div>
         </div>
       </form>

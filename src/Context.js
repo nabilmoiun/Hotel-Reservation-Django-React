@@ -11,6 +11,7 @@ class Context extends Component {
 
     this.state = {
       username: "",
+      user_id: "",
       isUserAuthenticated: false,
       token: "",
       rooms: [],
@@ -24,6 +25,7 @@ class Context extends Component {
       minPrice: 0,
       maxRoomSize: 0,
       minRoomSize: 0,
+      reserved: false,
     };
   }
   componentDidMount() {
@@ -46,14 +48,17 @@ class Context extends Component {
         let token = localStorage.getItem("access-token");
         let username = "";
         let auth = false;
+        let user_id = "";
         if (token) {
           auth = true;
           username = localStorage.getItem("username");
+          user_id = localStorage.getItem("user_id");
         }
 
         this.setState({
           isUserAuthenticated: auth,
           username: username,
+          user_id: user_id,
           token: token,
           rooms: response.data,
           sortedRooms: response.data,
@@ -71,13 +76,13 @@ class Context extends Component {
       });
   }
 
-  getType = () => {
-    let types = this.rooms.map((room) => room.category);
-  };
-
   handleChange = (event) => {
     const name = event.target.name;
-    const value = event.target.value;
+    const value =
+      event.target.type === "checkbox"
+        ? event.target.checked
+        : event.target.value;
+    console.log(event.target.type, event.target.value);
 
     // filterRooms is a call back function. This will be called only afer the state changes.
     this.setState(
@@ -90,12 +95,12 @@ class Context extends Component {
   filterRooms = () => {
     let {
       rooms,
-      sortedRooms,
       category_name,
       capacity,
       price_per_night,
       minRoomSize,
       maxRoomSize,
+      reserved,
     } = this.state;
     let filtredRooms = [...rooms];
     if (category_name !== "all") {
@@ -118,6 +123,9 @@ class Context extends Component {
         room.room_size <= parseInt(maxRoomSize)
     );
 
+    if (reserved) {
+      filtredRooms = filtredRooms.filter((room) => room.is_booked === false);
+    }
     this.setState({
       sortedRooms: filtredRooms,
     });
@@ -128,7 +136,7 @@ class Context extends Component {
     alert_location.setAttribute("class", `alert alert-${type}`);
     let link = document.createElement("a");
     let link_id = "close-alert";
-    let link_text = document.createTextNode("  " + "X");
+    let link_text = document.createTextNode(`  X`);
     link.setAttribute("href", "#");
     link.setAttribute("id", link_id);
     link.appendChild(link_text);
@@ -143,7 +151,7 @@ class Context extends Component {
     );
   }
 
-  handleLogin = (event, data) => {
+  handleLogin = (event, data, history) => {
     event.preventDefault();
     // const { username, password } = this.state;
     const credentials = {
@@ -157,6 +165,8 @@ class Context extends Component {
         this.setState({
           isUserAuthenticated: true,
           username: credentials.username,
+          token: response.data['access'],
+          user_id: response.data["user_id"]
         });
         const token = response.data["access"];
         const user_id = response.data["user_id"];
@@ -164,7 +174,9 @@ class Context extends Component {
         localStorage.setItem("access-token", token);
         localStorage.setItem("user_id", user_id);
         localStorage.setItem("username", username);
-        return <Redirect to="/rooms" />;
+        // this.props.history.push('/rooms');
+        console.log("history", history.location.pathname);
+        // history.push("/rooms");
       })
       .catch((e) => {
         this.createAlert(
@@ -191,21 +203,21 @@ class Context extends Component {
       isUserAuthenticated: false,
       username: "",
       token: "",
+      user_id: ""
     });
     return <Redirect to="/" />;
   };
 
-  handleRegister = (event, data) => {
+  handleRegister = (event, data, history) => {
     event.preventDefault();
-    console.log("register");
     axios
       .post("http://localhost:8000/accounts/register/", data)
       .then((response) => {
-        console.log(response.data["response"]);
-        return <Redirect to="/login" />;
+        history.push("/login");
       })
       .catch((error) => {
-        alert(`${error.response.data["response"]}`);
+        document.getElementById("register-message").innerHTML =
+          error.response.data["response"];
       });
   };
 

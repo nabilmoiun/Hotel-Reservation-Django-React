@@ -15,8 +15,9 @@ export default function RoomsFilter() {
     price_per_night,
     maxPrice,
     minPrice,
-    minRoomSize,
-    maxRoomSize
+    // minRoomSize,
+    // maxRoomSize,
+    reserved,
   } = contextData;
 
   let roomTypes = ["all", ...getUniqueValues(rooms, "category_name")];
@@ -45,7 +46,6 @@ export default function RoomsFilter() {
             onChange={handleChange}
           >
             {selectTypes}
-            {/* {category_list} */}
           </select>
         </div>
         <div className="form-group">
@@ -58,11 +58,12 @@ export default function RoomsFilter() {
             onChange={handleChange}
           >
             {sleectCapacity}
-            {/* {category_list} */}
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="customRange3">Room Price Max ${price_per_night}</label>
+          <label htmlFor="customRange3">
+            Room Price Max ${price_per_night}
+          </label>
           <input
             name="price_per_night"
             value={price_per_night}
@@ -76,7 +77,7 @@ export default function RoomsFilter() {
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="minRoomsSize">Room Size Min</label>
           <input
             name="minRoomSize"
@@ -87,9 +88,9 @@ export default function RoomsFilter() {
             onChange={handleChange}
             // style={{"width": "100px"}}
           />
-        </div>
+        </div> */}
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="maxRoomSize">Room Size Max</label>
           <input
             name="maxRoomSize"
@@ -100,18 +101,21 @@ export default function RoomsFilter() {
             onChange={handleChange}
             // style={{"width": "100px"}}
           />
-        </div>
-        
-        {/* <div className="form-check pt-4">
+        </div> */}
+
+        <div className="form-check pt-4">
           <input
+            name="reserved"
+            checked={reserved}
             type="checkbox"
             className="form-check-input"
-            id="exampleCheck1"
+            id="reserved"
+            onChange={handleChange}
           />
           <label className="form-check-label" htmlFor="exampleCheck1">
-            With Meals
+            Available
           </label>
-        </div> */}
+        </div>
 
         {/* <div className="border">Facility</div> */}
       </form>

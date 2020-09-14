@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
 import BookingComponent from "../components/BookingComponent";
-
-export default function BookingPage({ location }) {
-  const room = location.state;
-  if (room.is_booked) {
-    return <div>The room is currently resereved</div>;
+import LoginPage from "../pages/LoginPage";
+import { MyContext } from "../Context";
+import { Redirect } from "react-router-dom";
+export default function BookingPage({ history, location }) {
+  const context = useContext(MyContext);
+  if (!location.state) {
+    return <Redirect to="/rooms" />;
+  }
+  const room = location.state.room;
+  if (!context.isUserAuthenticated) {
+    return <LoginPage history={history} location={location} />;
   }
   return (
     <div className="container">
