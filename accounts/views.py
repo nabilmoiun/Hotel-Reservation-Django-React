@@ -22,6 +22,7 @@ class MyTokenObtainSerilizer(TokenObtainPairSerializer):
         # Add your required response and other parameters here
         data['username'] = self.user.username
         data['user_id'] = self.user.pk
+        data['is_admin'] = self.user.is_staff
         data['message'] = "login successful"
 
         return data
