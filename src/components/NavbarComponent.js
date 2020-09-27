@@ -44,6 +44,13 @@ export default function NavbarComponent() {
               </Link>
             </>
           )}
+          {context.isAdmin && context.isUserAuthenticated ? (
+            <Link to="/dashboard" className="nav-link">
+              <li className="nav-item">Dashboard</li>
+            </Link>
+          ) : (
+            ""
+          )}
         </ul>
       </div>
     </nav>

@@ -14,9 +14,11 @@ class Context extends Component {
       user_id: "",
       isUserAuthenticated: false,
       token: "",
+      isAdmin: false,
       rooms: [],
       sortedRooms: [],
       featuredRooms: [],
+      checkedInRooms: [],
       loading: true,
       category_name: "all",
       capacity: "1",
@@ -49,10 +51,13 @@ class Context extends Component {
         let username = "";
         let auth = false;
         let user_id = "";
+        let is_admin = false;
         if (token) {
           auth = true;
           username = localStorage.getItem("username");
           user_id = localStorage.getItem("user_id");
+          is_admin = localStorage.getItem('is_admin');
+          is_admin = is_admin === "true" ? true : false;
         }
 
         this.setState({
@@ -60,6 +65,7 @@ class Context extends Component {
           username: username,
           user_id: user_id,
           token: token,
+          isAdmin: is_admin,
           rooms: response.data,
           sortedRooms: response.data,
           featuredRooms: featured,
@@ -70,6 +76,11 @@ class Context extends Component {
           minRoomSize: minRoomSize,
           loading: false,
         });
+      })
+      .then(response => {
+        if(this.state.isAdmin) {
+          this.setCheckedInRooms()
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -166,14 +177,17 @@ class Context extends Component {
           isUserAuthenticated: true,
           username: credentials.username,
           token: response.data['access'],
-          user_id: response.data["user_id"]
-        });
+          user_id: response.data["user_id"],
+          isAdmin: response.data["is_admin"]
+        }, this.setCheckedInRooms);
         const token = response.data["access"];
         const user_id = response.data["user_id"];
         const username = response.data["username"];
+        const is_admin = response.data['is_admin'];
         localStorage.setItem("access-token", token);
         localStorage.setItem("user_id", user_id);
         localStorage.setItem("username", username);
+        localStorage.setItem('is_admin', is_admin);
         // this.props.history.push('/rooms');
         console.log("history", history.location.pathname);
         // history.push("/rooms");
@@ -185,6 +199,52 @@ class Context extends Component {
           "login-error-header"
         );
       });
+  };
+
+  setCheckedInRooms = () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${this.state.token}`,
+      },
+    };
+    if(this.state.isAdmin) {
+      axios.get("http://localhost:8000/hotel/get_current_checked_in_rooms/", config)
+      .then(response => {
+        this.setState({
+          checkedInRooms: response.data
+        })
+      })
+      .catch(error => {
+        console.log(error.message);
+      })
+    }
+  }
+
+  handleCheckOut = room_id => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.state.token}`
+      }
+    };
+    axios.post("http://localhost:8000/hotel/checkout/", {"pk": room_id}, config)
+    .then(response => {
+      console.log(response.data);
+    })
+    .then(() => {
+      this.state.rooms.forEach((room) => {
+        if (room.id === room_id) {
+          room.is_booked = false;
+        }
+      });
+      let updateCheckedInRooms = this.state.checkedInRooms.filter(room => room.room_id !== room_id);
+      this.setState({
+        checkedInRooms: updateCheckedInRooms
+      })
+    })
+    .catch(error => {
+      console.log(error.message);
+    })
   };
 
   handleBook = (id) => {
@@ -199,11 +259,13 @@ class Context extends Component {
     localStorage.removeItem("access-token");
     localStorage.removeItem("username");
     localStorage.removeItem("user_id");
+    localStorage.removeItem('is_admin');
     this.setState({
       isUserAuthenticated: false,
       username: "",
       token: "",
-      user_id: ""
+      user_id: "",
+      isAdmin: false
     });
     return <Redirect to="/" />;
   };
@@ -231,6 +293,7 @@ class Context extends Component {
           logout: this.handleLogout,
           register: this.handleRegister,
           handleBook: this.handleBook,
+          checkout: this.handleCheckOut
         }}
       >
         {this.props.children}

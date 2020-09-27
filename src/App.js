@@ -12,6 +12,7 @@ import BookingPage from "./pages/BookingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ErrorPage from "./pages/ErrorPage";
+import Dashboard from './pages/Dashboard';
 function App() {
   return (
     <div className="container-fluid">
@@ -32,6 +33,7 @@ function App() {
           path="/register"
           render={(props) => <RegisterPage {...props} />}
         />
+        <Route path="/dashboard" render={(props) => <Dashboard {...props}/>}/>
         <Route render={(props) => <ErrorPage {...props} />} />
       </Switch>
     </div>
