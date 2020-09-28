@@ -8,7 +8,6 @@ export default function SingleRommPage({ match }) {
   const room = context.rooms.find(
     (room) => room.room_slug === match.params["room_slug"]
   );
-  console.log(room);
   if (!room) {
     return <div>Eroror</div>;
   } else {

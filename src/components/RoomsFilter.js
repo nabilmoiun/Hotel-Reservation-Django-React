@@ -28,7 +28,7 @@ export default function RoomsFilter() {
   ));
 
   let capacityValues = [...getUniqueValues(rooms, "capacity")];
-  const sleectCapacity = capacityValues.map((cap, index) => (
+  const sleectCapacity = capacityValues.sort().map((cap, index) => (
     <option key={index} value={cap}>
       {cap}
     </option>
@@ -62,7 +62,7 @@ export default function RoomsFilter() {
         </div>
         <div className="form-group">
           <label htmlFor="customRange3">
-            Room Price Max ${price_per_night}
+            Room Cost Max ${price_per_night}
           </label>
           <input
             name="price_per_night"

@@ -5,7 +5,8 @@ export default function NavbarComponent() {
   const context = useContext(MyContext);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <button
         className="navbar-toggler"
         type="button"
@@ -54,5 +55,12 @@ export default function NavbarComponent() {
         </ul>
       </div>
     </nav>
+    <div className="container">
+      <div className="row justify-content-center pt-3">
+      <p className="success-message font-weight-bold" id="common-message"></p>
+      </div>
+    </div>
+    </>
+    
   );
 }

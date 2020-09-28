@@ -8,7 +8,7 @@ export default class FeatureComponent extends Component {
 
   render() {
     const {featuredRooms} = this.context;
-    let rooms = featuredRooms.map((room) => {
+    let rooms = featuredRooms.slice(0, 4).map((room) => {
       return <Room key={room.id} room={room} />;
     });
     

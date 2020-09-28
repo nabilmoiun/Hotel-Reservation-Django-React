@@ -8,7 +8,7 @@ const TableBody = ({ rooms, checkout }) => {
       <td>{room.customer_name}</td>
       <td>{room.phone_number}</td>
       <td>
-          <button onClick={() => checkout(room.room_id)}>Checkout</button>
+          <button onClick={() => checkout(room.room_id)} className="btn btn-outline-dark">Checkout</button>
       </td>
     </tr>
   ));

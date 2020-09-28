@@ -1,27 +1,32 @@
 import React, { useContext } from "react";
 import { MyContext } from "../Context";
-// import { Link } from "react-router-dom";
 import Table from "../components/Table";
 
 export default function Dashboard() {
-  // const [searchKey, setSerchKey] = useState("");
   const context = useContext(MyContext);
-  console.log(context.checkedInRooms);
-  let rooms = context.checkedInRooms;
+  let rooms = context.filteredCheckedInRooms;
   const columns = ["Room", "Booked By", "Phone Number", "Action"];
-
-  // useEffect(() => {
-  //   console.log("filtering by ", searchKey);
-  //   rooms = rooms.filter(room => room.room_slug.includes(searchKey));
-  //   console.log("filtered", rooms);
-  // }, [searchKey])
 
   if (context.isAdmin) {
     return (
       <div className="container pt-5">
-        {/* <div className="row">
-          <input type="text" value={searchKey} placeholder="search" onChange={(event) => setSerchKey(event.target.value)}/>
-        </div> */}
+        <form>
+          <div className="title my-2 text-center">
+            <h4>List of Booked Rooms</h4>
+          </div>
+          <div className="row my-4">
+            <div className="col-md-12 my-2">
+              <input
+                className="form-control"
+                name="searchKey"
+                value={context.searchKey}
+                type="text"
+                placeholder="Enter room to search"
+                onChange={(event) => context.searchBy(event)}
+              ></input>
+            </div>
+          </div>
+        </form>
         {rooms.length < 1 ? (
           <div>No Checkings</div>
         ) : (

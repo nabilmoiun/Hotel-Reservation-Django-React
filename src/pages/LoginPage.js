@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { MyContext } from "../Context";
 import { Link, Redirect } from "react-router-dom";
 export default function LoginPage({ history }) {
-  console.log(history);
   const context = useContext(MyContext);
   const [data, setData] = useState({
     username: "",
@@ -22,7 +21,7 @@ export default function LoginPage({ history }) {
           <div className="form-group col-md-6 m-auto">
             <p
               id="login-error-header"
-              className="col-md-6 m-auto pb-2 font-weight-bold"
+              className="col-md-6 m-auto pb-2 font-weight-bold text-danger"
             ></p>
             <label htmlFor="inputUserName">Username</label>
             <input

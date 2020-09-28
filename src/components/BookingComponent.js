@@ -36,7 +36,6 @@ export default function BookingComponent({ room }) {
     return true;
   };
   const handleSubmit = (event) => {
-    console.log(room);
     event.preventDefault();
     let isFormValid = isValid();
     let bookingDate = {
@@ -55,9 +54,8 @@ export default function BookingComponent({ room }) {
         },
       };
       axios
-        .post("http://localhost:8000/hotel/book/", bookingDate, config)
+        .post("/hotel/book/", bookingDate, config)
         .then((response) => {
-          console.log("response is ", response.data["response"]);
           setData(
             {
               email: "",
@@ -71,14 +69,13 @@ export default function BookingComponent({ room }) {
         })
         .then((response) => {
           document.getElementById(
-            "message"
+            "common-message"
           ).innerHTML = `${response["response"]}`;
           setTimeout(function () {
-            document.getElementById("message").innerHTML = "";
+            document.getElementById("common-message").innerHTML = "";
           }, 3000);
         })
         .catch((error) => {
-          console.log("error is", error);
         });
     }
   };
@@ -86,7 +83,7 @@ export default function BookingComponent({ room }) {
     <form className="booking-form mt-5" onSubmit={handleSubmit}>
       <div className="row">
         <div className="form-group col-md-6 m-auto text-center">
-          <p className="success-message mb-2 font-weight-bold" id="message"></p>
+          {/* <p className="success-message mb-2 font-weight-bold" id="message"></p> */}
           <Link to={`/single-room/${room.room_slug}`} role="button">
             <button>Goto Room</button>
           </Link>

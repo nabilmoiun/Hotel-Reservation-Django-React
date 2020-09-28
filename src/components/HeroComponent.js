@@ -31,8 +31,13 @@ export default function HeroComponent({ data }) {
             />
           </Link>
           <div className="carousel-caption d-md-block">
-            <h5>{data[0].title}</h5>
-            <p>{data[0].price_per_night}</p>
+            <Link
+              to={`/single-room/${data[0].room_slug}`}
+              className="text-decoration-none text-white"
+            >
+              <h5>{data[0].title}</h5>
+            </Link>
+            <p>$ {data[0].price_per_night}</p>
           </div>
         </div>
 

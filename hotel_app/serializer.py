@@ -8,7 +8,7 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = '__all__'
-        
+
     def create(self, validated_data):
         return super().create(self.category_name)
 
@@ -24,6 +24,7 @@ class CheckinSerializer(serializers.ModelSerializer):
     room_slug = serializers.SlugField(source='room.room_slug')
     customer_id = serializers.IntegerField(source='customer.pk')
     customer_name = serializers.CharField(source='customer.username')
+
     class Meta:
         model = CheckIn
-        fields = ('phone_number', 'email', 'customer_id', 'customer_name', 'room_id', 'room_slug', )
+        fields = ('phone_number', 'email', 'customer_id', 'customer_name', 'room_id', 'room_slug',)

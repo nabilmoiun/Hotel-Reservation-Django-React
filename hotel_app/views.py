@@ -10,7 +10,7 @@ from rest_framework import status
 
 class RoomView(ListAPIView):
     serializer_class = RoomSerializer
-    queryset = Room.objects.all()
+    queryset = Room.objects.order_by('-id')
 
 
 class RoomDetailView(RetrieveAPIView):
@@ -64,4 +64,4 @@ class CheckoutView(APIView):
 class CheckedInView(ListAPIView):
     permission_classes = (IsAdminUser, )
     serializer_class = CheckinSerializer
-    queryset = CheckIn.objects.all()
+    queryset = CheckIn.objects.order_by('-id')

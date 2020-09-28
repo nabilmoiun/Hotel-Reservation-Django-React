@@ -12,8 +12,13 @@ export default function CarouselItems({ data }) {
         />
       </Link>
       <div className="carousel-caption d-md-block">
-        <h5>{d.title}</h5>
-        <p>{d.price_per_night}</p>
+        <Link
+          to={`/single-room/${d.room_slug}`}
+          className="text-decoration-none text-white"
+        >
+          <h5>{d.title}</h5>
+        </Link>
+        <p>$ {d.price_per_night}</p>
       </div>
     </div>
   ));

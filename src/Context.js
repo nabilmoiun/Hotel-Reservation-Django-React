@@ -19,6 +19,7 @@ class Context extends Component {
       sortedRooms: [],
       featuredRooms: [],
       checkedInRooms: [],
+      filteredCheckedInRooms: [],
       loading: true,
       category_name: "all",
       capacity: "1",
@@ -28,11 +29,12 @@ class Context extends Component {
       maxRoomSize: 0,
       minRoomSize: 0,
       reserved: false,
+      searchKey: "",
     };
   }
   componentDidMount() {
     axios
-      .get("http://localhost:8000/hotel/get_room_list/")
+      .get("/hotel/get_room_list/")
       .then((response) => {
         let featured = response.data.filter((room) => room.featured);
         let minPrice = parseInt(
@@ -56,7 +58,7 @@ class Context extends Component {
           auth = true;
           username = localStorage.getItem("username");
           user_id = localStorage.getItem("user_id");
-          is_admin = localStorage.getItem('is_admin');
+          is_admin = localStorage.getItem("is_admin");
           is_admin = is_admin === "true" ? true : false;
         }
 
@@ -77,9 +79,9 @@ class Context extends Component {
           loading: false,
         });
       })
-      .then(response => {
-        if(this.state.isAdmin) {
-          this.setCheckedInRooms()
+      .then((response) => {
+        if (this.state.isAdmin) {
+          this.setCheckedInRooms();
         }
       })
       .catch((error) => {
@@ -93,7 +95,6 @@ class Context extends Component {
       event.target.type === "checkbox"
         ? event.target.checked
         : event.target.value;
-    console.log(event.target.type, event.target.value);
 
     // filterRooms is a call back function. This will be called only afer the state changes.
     this.setState(
@@ -164,40 +165,38 @@ class Context extends Component {
 
   handleLogin = (event, data, history) => {
     event.preventDefault();
-    // const { username, password } = this.state;
     const credentials = {
       username: data.username,
       password: data.password,
     };
     axios
-      .post("http://localhost:8000/accounts/login/", credentials)
+      .post("/accounts/login/", credentials)
       .then((response) => {
-        console.log("response status", response.data);
-        this.setState({
-          isUserAuthenticated: true,
-          username: credentials.username,
-          token: response.data['access'],
-          user_id: response.data["user_id"],
-          isAdmin: response.data["is_admin"]
-        }, this.setCheckedInRooms);
+        this.setState(
+          {
+            isUserAuthenticated: true,
+            username: credentials.username,
+            token: response.data["access"],
+            user_id: response.data["user_id"],
+            isAdmin: response.data["is_admin"],
+          },
+          this.setCheckedInRooms
+        );
         const token = response.data["access"];
         const user_id = response.data["user_id"];
         const username = response.data["username"];
-        const is_admin = response.data['is_admin'];
+        const is_admin = response.data["is_admin"];
         localStorage.setItem("access-token", token);
         localStorage.setItem("user_id", user_id);
         localStorage.setItem("username", username);
-        localStorage.setItem('is_admin', is_admin);
-        // this.props.history.push('/rooms');
-        console.log("history", history.location.pathname);
-        // history.push("/rooms");
+        localStorage.setItem("is_admin", is_admin);
       })
       .catch((e) => {
-        this.createAlert(
-          "Unautherized Credentials",
-          "warning",
-          "login-error-header"
-        );
+        document.getElementById("login-error-header").innerHTML =
+          "Unauthorized Credentials";
+        setTimeout(function () {
+          document.getElementById("login-error-header").innerHTML = "";
+        }, 4000);
       });
   };
 
@@ -207,44 +206,56 @@ class Context extends Component {
         Authorization: `Bearer ${this.state.token}`,
       },
     };
-    if(this.state.isAdmin) {
-      axios.get("http://localhost:8000/hotel/get_current_checked_in_rooms/", config)
-      .then(response => {
-        this.setState({
-          checkedInRooms: response.data
+    if (this.state.isAdmin) {
+      axios
+        .get(
+          "/hotel/get_current_checked_in_rooms/",
+          config
+        )
+        .then((response) => {
+          this.setState({
+            checkedInRooms: response.data,
+            filteredCheckedInRooms: response.data,
+          });
         })
-      })
-      .catch(error => {
-        console.log(error.message);
-      })
+        .catch((error) => {
+          console.log(error.message);
+        });
     }
-  }
+  };
 
-  handleCheckOut = room_id => {
+  handleCheckOut = (room_id) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.state.token}`
-      }
+        Authorization: `Bearer ${this.state.token}`,
+      },
     };
-    axios.post("http://localhost:8000/hotel/checkout/", {"pk": room_id}, config)
-    .then(response => {
-      console.log(response.data);
-    })
-    .then(() => {
-      this.state.rooms.forEach((room) => {
-        if (room.id === room_id) {
-          room.is_booked = false;
-        }
-      });
-      let updateCheckedInRooms = this.state.checkedInRooms.filter(room => room.room_id !== room_id);
-      this.setState({
-        checkedInRooms: updateCheckedInRooms
+    axios
+      .post("/hotel/checkout/", { pk: room_id }, config)
+      .then((response) => {
+        this.state.rooms.forEach((room) => {
+          if (room.id === room_id) {
+            room.is_booked = false;
+          }
+        });
+        let updateCheckedInRooms = this.state.checkedInRooms.filter(
+          (room) => room.room_id !== room_id
+        );
+        this.setState({
+          checkedInRooms: updateCheckedInRooms,
+          filteredCheckedInRooms: updateCheckedInRooms,
+        });
+        document.getElementById(
+          "common-message"
+        ).innerHTML = response.data;
+        setTimeout(function () {
+          document.getElementById("common-message").innerHTML = "";
+        }, 3000);
       })
-    })
-    .catch(error => {
-      console.log(error.message);
-    })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   handleBook = (id) => {
@@ -259,13 +270,13 @@ class Context extends Component {
     localStorage.removeItem("access-token");
     localStorage.removeItem("username");
     localStorage.removeItem("user_id");
-    localStorage.removeItem('is_admin');
+    localStorage.removeItem("is_admin");
     this.setState({
       isUserAuthenticated: false,
       username: "",
       token: "",
       user_id: "",
-      isAdmin: false
+      isAdmin: false,
     });
     return <Redirect to="/" />;
   };
@@ -273,7 +284,7 @@ class Context extends Component {
   handleRegister = (event, data, history) => {
     event.preventDefault();
     axios
-      .post("http://localhost:8000/accounts/register/", data)
+      .post("/accounts/register/", data)
       .then((response) => {
         history.push("/login");
       })
@@ -281,6 +292,30 @@ class Context extends Component {
         document.getElementById("register-message").innerHTML =
           error.response.data["response"];
       });
+  };
+
+  handleSearchKey = (event) => {
+    this.setState(
+      {
+        searchKey: event.target.value,
+      },
+      this.filterCheckedInRooms
+    );
+  };
+
+  filterCheckedInRooms = () => {
+    if (this.state.searchKey !== "") {
+      let searchedRooms = this.state.filteredCheckedInRooms.filter((room) =>
+        room.room_slug.toString().includes(this.state.searchKey)
+      );
+      this.setState({
+        filteredCheckedInRooms: searchedRooms,
+      });
+    } else {
+      this.setState({
+        filteredCheckedInRooms: this.state.checkedInRooms,
+      });
+    }
   };
 
   render() {
@@ -293,7 +328,8 @@ class Context extends Component {
           logout: this.handleLogout,
           register: this.handleRegister,
           handleBook: this.handleBook,
-          checkout: this.handleCheckOut
+          checkout: this.handleCheckOut,
+          searchBy: this.handleSearchKey,
         }}
       >
         {this.props.children}
