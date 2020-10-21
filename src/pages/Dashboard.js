@@ -17,11 +17,11 @@ export default function Dashboard() {
           <div className="row my-4">
             <div className="col-md-12 my-2">
               <input
-                className="form-control"
+                className="dashboard-input"
                 name="searchKey"
                 value={context.searchKey}
                 type="text"
-                placeholder="Enter room to search"
+                placeholder="Enter room slug to search"
                 onChange={(event) => context.searchBy(event)}
               ></input>
             </div>
