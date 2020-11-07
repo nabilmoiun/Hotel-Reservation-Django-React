@@ -38,10 +38,10 @@ class UserView(APIView):
     def post(self, request, *args, **kwargs):
         post_data = dict(request.data)
         user_name = User.objects.filter(username=post_data['username'])
-        if len(user_name) > 0:
+        if user_name.exists():
             return Response({"response": "username already taken"}, status=status.HTTP_400_BAD_REQUEST)
         email = User.objects.filter(email=post_data['email'])
-        if len(email) > 0:
+        if email.exists():
             return Response({"response": "email already exists"}, status=status.HTTP_400_BAD_REQUEST)
         if post_data['password1'] != post_data['password2']:
             return Response({"response": "Passwords don't match"}, status=status.HTTP_400_BAD_REQUEST)
