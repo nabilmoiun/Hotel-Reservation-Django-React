@@ -23,21 +23,21 @@ export default function HeroComponent({ data }) {
 
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <Link to={`/single-room/${data[0].room_slug}`}>
+          <Link to={`/single-room/${data[0]?.room_slug}`}>
             <img
               className="d-block w-100 hero hero-image"
-              src={data[0].cover_image}
+              src={data[0]?.cover_image}
               alt="First slide"
             />
           </Link>
           <div className="carousel-caption d-md-block">
             <Link
-              to={`/single-room/${data[0].room_slug}`}
+              to={`/single-room/${data[0]?.room_slug}`}
               className="text-decoration-none text-white"
             >
-              <h5>{data[0].title}</h5>
+              <h5>{data[0]?.title}</h5>
             </Link>
-            <p>$ {data[0].price_per_night}</p>
+            <p>$ {data[0]?.price_per_night}</p>
           </div>
         </div>
 

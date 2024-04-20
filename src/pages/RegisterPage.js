@@ -2,15 +2,16 @@ import React, { useContext, useState } from "react";
 import TextInput from "../components/TextInput";
 import { MyContext } from "../Context";
 import { Redirect, Link } from "react-router-dom";
+
 export default function RegisterPage({ history }) {
   const context = useContext(MyContext);
   const [data, setData] = useState({
     username: "",
     email: "",
-    password1: "",
+    password: "",
     password2: "",
   });
-  const { username, email, password1, password2 } = data;
+  const { username, email, password, password2 } = data;
   if (context.isUserAuthenticated) {
     return <Redirect to="/" />;
   }
@@ -22,11 +23,11 @@ export default function RegisterPage({ history }) {
         className="mt-5"
       >
         <div className="row">
-          <div className="form-group col-md-6 m-auto pb-3">
-            <p
+          <div className="form-group col-md-6 m-auto pb-3" style={{paddingLeft: "10px"}}>
+            <ul
               className="text-uppercase text-danger font-weight-bold"
               id="register-message"
-            ></p>
+            ></ul>
           </div>
         </div>
         <div className="row">
@@ -70,11 +71,11 @@ export default function RegisterPage({ history }) {
             labelName="Password"
             inputClass="form-control"
             inputType="password"
-            inputName="password1"
-            inputValue={password1}
+            inputName="password"
+            inputValue={password}
             inputPlaceHolder="Enter Password"
             onChange={(event) =>
-              setData({ ...data, password1: event.target.value })
+              setData({ ...data, password: event.target.value })
             }
             required={true}
           />

@@ -289,8 +289,13 @@ class Context extends Component {
         history.push("/login");
       })
       .catch((error) => {
+        console.log(error.response.data);
+        let html = '';
+        for(let e in error.response.data) {
+          html += `<li>${error.response.data[e]}</li>`
+        }
         document.getElementById("register-message").innerHTML =
-          error.response.data["response"];
+          html
       });
   };
 
