@@ -14,7 +14,7 @@ The site is developed to mainly focus on displaying and filtering different room
 # Demo
 
 To view a video demo of the app go to the following link
-https://drive.google.com/file/d/1fys9O39kyyA_JAAoo2NlsPYXBw8ZWA2w/view?usp=sharing
+https://youtu.be/8Yv6eQSGK0w
 
 # Usage
 
